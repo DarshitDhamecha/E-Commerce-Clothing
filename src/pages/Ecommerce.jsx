@@ -1,5 +1,5 @@
 import Aos from 'aos';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import 'aos/dist/aos.css';
 import { useFormik } from 'formik';
@@ -70,6 +70,34 @@ export default function Ecommerce() {
         { id: 3, image: "/images/tag-free-img.png", hedding: "Best Quality", details: "It elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo." },
         { id: 4, image: "/images/lock-free-img.png", hedding: "Secure Payments", details: "It elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo." },
     ]
+
+    // for scroll to top 
+    const [isVisible, setIsisVisible] = useState(false);
+
+    useEffect(() => {
+        const toggleVisiblety = () => {
+            if (window.pageYOffset > 100) {
+                setIsisVisible(true)
+            } else {
+                setIsisVisible(false)
+            }
+        };
+        window.addEventListener("scroll", toggleVisiblety);
+
+        return () => {
+            window.removeEventListener("scroll", toggleVisiblety);
+        }
+    }, []);
+
+    // scroll to top when button clicked
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }
+
+
 
     return (
         <>
@@ -218,6 +246,13 @@ export default function Ecommerce() {
             <hr />
             {/* <----------for footer---------------> */}
             <Footer />
+            <div title='Go To Top'>
+                {isVisible && (
+                    <button className='fixed bottom-5 right-5  border-black border-2 p-2 hover:bg-black hover:text-white' onClick={scrollToTop}>
+                        <i class="fa-solid fa-chevron-up fs-3"></i>
+                    </button>
+                )}
+            </div>
         </>
     )
 }
